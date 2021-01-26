@@ -1,0 +1,34 @@
+create database data_query;
+use data_query;
+
+create table product(
+    code int,
+    name nvarchar(100),
+    productScale nvarchar(100),
+    productVendor nvarchar(100),
+    productDescription nvarchar(100),
+    buyPrice double
+);
+insert into product value (2,'product2','scale2','vendor2','description2','30');
+insert into product value (3,'product3','scale3','vendor3','description3','30');
+insert into product value (4,'product4','scale4','vendor4','description4','40');
+alter table product add column producLine nvarchar(100) after name;
+update product set producLine='line1'where code=4;
+update product set producLine='line2'where code=2;
+update product set producLine='line3'where code=3;
+delete from product where code=2;
+delete from product where code=3;
+delete from product where code=4;
+
+
+create table productline(
+    productLine nvarchar(100),
+    textDescription nvarchar(100),
+    htmlDescription nvarchar(100),
+    image nvarchar(100),
+    primary key (productLine)
+);
+alter table product add constraint khoa_ngoai foreign key (producLine) references productline(productLine) ;
+select code,name,buyPrice from product where buyPrice>11.11;
+select code,name,buyPrice,textDescription from product inner join productline on product.producLine=productLine.productLine where buyPrice>5.5 and buyPrice<19.1;
+select code,name,buyPrice,productVendor,producLine from product where producLine ='tung' or productVendor='vendor1'
